@@ -38,6 +38,12 @@ public class ActividadBController implements Initializable{
 
     @FXML
     private Button btnModificar;
+    
+    @FXML
+    private Button btnExportar;
+
+    @FXML
+    private Button btnImportar;
 	
 	@FXML
     private TableView<Persona> tblTabla;
@@ -51,14 +57,8 @@ public class ActividadBController implements Initializable{
 	@FXML
 	private TableColumn<Persona, String> tblNombre;
 	
-	@FXML
-	private TextField txtApellidos;
-	
-	@FXML
-	private TextField txtEdad;
-	
-	@FXML
-	private TextField txtNombre;
+    @FXML
+    private TextField txtFiltrar;
 	
 	// Variables de clase
 	static ObservableList<Persona> listaPersonas;
