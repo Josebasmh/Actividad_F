@@ -15,11 +15,20 @@
    <children>
       <VBox alignment="CENTER" prefHeight="560.0" prefWidth="760.0">
          <children>
-            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="760.0" spacing="10.0">
                <children>
                   <Label text="Filtrar por nombre: " />
-                  <TextField />
+                  <TextField fx:id="txtFiltrar" />
+                  <HBox alignment="CENTER" prefWidth="400.0" spacing="30.0">
+                     <children>
+                        <Button fx:id="btnImportar" mnemonicParsing="false" text="Importar" />
+                        <Button fx:id="btnExportar" mnemonicParsing="false" text="Exportar" />
+                     </children>
+                  </HBox>
                </children>
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
             </HBox>
             <TableView fx:id="tblTabla" prefHeight="560.0" prefWidth="540.0">
               <columns>
