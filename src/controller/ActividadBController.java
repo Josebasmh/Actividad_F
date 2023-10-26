@@ -1,13 +1,13 @@
 package controller;
 
 
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.ResourceBundle;
-
-import javax.accessibility.AccessibleResourceBundle;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,12 +17,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -62,6 +62,7 @@ public class ActividadBController implements Initializable{
 	
 	// Variables de clase
 	static ObservableList<Persona> listaPersonas;
+	static ObservableList<Persona> listaFiltrada;
 	static Persona p=new Persona("", "", 0);
 	
 	/*
@@ -70,13 +71,13 @@ public class ActividadBController implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		listaPersonas = FXCollections.observableArrayList();
-		
+		listaFiltrada = FXCollections.observableArrayList();
 		tblNombre.setCellValueFactory(new PropertyValueFactory<Persona, String>("nombre"));
 		tblApellidos.setCellValueFactory(new PropertyValueFactory<Persona, String>("apellidos"));
 		tblEdad.setCellValueFactory(new PropertyValueFactory<Persona, Integer>("edad"));		
 			
 		
-		tblTabla.setItems(listaPersonas);		
+		tblTabla.setItems(listaFiltrada);		
 	}
 		
 	/*
@@ -101,6 +102,7 @@ public class ActividadBController implements Initializable{
 			String sApellidosEliminado = tblTabla.getSelectionModel().getSelectedItem().getApellidos();
 			Integer nEdadEliminado = tblTabla.getSelectionModel().getSelectedItem().getEdad();
 			listaPersonas.remove(new Persona(sNombreEliminado, sApellidosEliminado, nEdadEliminado));
+			listaFiltrada.remove(new Persona(sNombreEliminado, sApellidosEliminado, nEdadEliminado));
 			ventanaAlerta("I","Persona eliminada correctamente");
 		}catch (NullPointerException e) {
 			ventanaAlerta("E", "Seleccione un registro de la tabla. Si no lo hay, añada uno.");
@@ -119,6 +121,23 @@ public class ActividadBController implements Initializable{
     		ventanaAlerta("E", "Seleccione un registro de la tabla. Si no lo hay, añada uno.");
     	}
     	
+    }
+    
+    @FXML
+    void filtrarTabla(KeyEvent event) {
+    	
+    	String sFiltro = txtFiltrar.getText(); 
+    	
+    	// Iterador para la lista y se añade a una lista auxiliar para mostrar en la tabla
+    	Iterator<Persona>it = listaPersonas.iterator();
+    	listaFiltrada.clear();
+    	
+    	while(it.hasNext()) {
+    		Persona p = it.next();
+    		if (p.getNombre().contains(sFiltro)) {
+    			listaFiltrada.add(p);
+    		}
+    	}
     }
 		
 	/*
