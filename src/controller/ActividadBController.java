@@ -2,12 +2,15 @@ package controller;
 
 
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.ResourceBundle;
+
+import javax.swing.JFileChooser;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,6 +27,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.FlowPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Persona;
@@ -139,6 +143,24 @@ public class ActividadBController implements Initializable{
     		}
     	}
     }
+    /*
+     * Método para exportar los datos de la tabla a un csv 
+     */
+    @FXML
+    void exportarDatos(ActionEvent event) {
+
+    	try {
+    		JFileChooser fichCSV = new JFileChooser();
+        	fichCSV.showOpenDialog(null);
+        	File fRutaFichero = fichCSV.getSelectedFile();
+        	String extension = fRutaFichero.toString().substring(((int)fRutaFichero.toString().length())-3, (int)fRutaFichero.toString().length());
+        	if (extension!="csv") {
+        		ventanaAlerta("E", "Seleccione un archivo con extensión .csv");
+        	}
+    	}catch (NullPointerException e) {
+    		
+    	}
+    }
 		
 	/*
 	 * Metodos auxiliares 
@@ -157,6 +179,8 @@ public class ActividadBController implements Initializable{
         alert.setContentText(mensaje);
         alert.showAndWait();
 	}
+	
+	// para crear la ventana auxiliar
 	void crearVentanaAux() {
 		Stage arg0 = new Stage();
 		arg0.setTitle("NUEVA PERSONA"); 
