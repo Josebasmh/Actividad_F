@@ -76,13 +76,11 @@ public class ActividadBController2 implements Initializable{
 		 * Métodos auxiliares
 		 */
 
-		void aniadir() {
+		private void aniadir() {
 			String camposNulos = "";
 			try {
 				// Controlar que los parametros se insertan correctamente
-				if (txtNombre.getText().equals("")) {camposNulos = "El campo nombre es obligatorio\n";}
-				if (txtApellidos.getText().equals("")) {camposNulos += "El campo apellidos es obligatorio\n";}
-				if (txtEdad.getText().isEmpty()) {camposNulos += "El campo edad es obligatorio";}
+				camposNulos = comprobarCampos();
 				if (camposNulos!="") {throw new NullPointerException();}
 				if (Integer.parseInt(txtEdad.getText().toString()) < 1) {throw new NumberFormatException();}
 				
@@ -94,6 +92,7 @@ public class ActividadBController2 implements Initializable{
 				// Insertar persona, controlando que no exista
 				if (ActividadBController.listaPersonas.contains(p)== false) {
 					ActividadBController.listaPersonas.add(p);
+					ActividadBController.listaFiltrada.add(p);
 					ActividadBController.ventanaAlerta("I", "Persona añadida correctamente");
 					eliminarValores();
 				}else{
@@ -106,15 +105,25 @@ public class ActividadBController2 implements Initializable{
 			}
 		}
 		
-		void modificar() {
+		private void modificar() {
 			camposNulos="";
 	    	try {
-	    		// Crear persona para comprobar que no esxiste
+	    		// Controlar que los parametros se insertan correctamente
+	    		camposNulos = comprobarCampos();
+	    		System.out.println(camposNulos);
+				if (!camposNulos.equals("")) {
+					throw new NullPointerException();
+					}
+				if (Integer.parseInt(txtEdad.getText().toString()) < 1) {throw new NumberFormatException();}	    		
+
+				// Crear persona para comprobar que no existe
 	    		Persona pAux = new Persona(txtNombre.getText(), txtApellidos.getText(), Integer.parseInt(txtEdad.getText()));
 	    		if (!ActividadBController.listaPersonas.contains(pAux)) {
 	        		// Modificar persona
 	    			ActividadBController.listaPersonas.remove(ActividadBController.p);
+	    			ActividadBController.listaFiltrada.remove(ActividadBController.p);
 	    			ActividadBController.listaPersonas.add(pAux);
+	    			ActividadBController.listaFiltrada.add(pAux);
 	    			ActividadBController.ventanaAlerta("I", "Persona modificada correctamente");
 	    			eliminarValores();
 	    		}else {
@@ -126,9 +135,18 @@ public class ActividadBController2 implements Initializable{
 	    	}
 		}
 		// Vacia los editText  
-		void eliminarValores() {
+		private void eliminarValores() {
 			txtNombre.clear();
 			txtApellidos.clear();
 			txtEdad.clear();
+		}
+		
+		private String comprobarCampos() {
+			// Controlar que los parametros se insertan correctamente
+			String sCamposNulos="";
+			if (txtNombre.getText().equals("")) {sCamposNulos = "El campo nombre es obligatorio\n";}
+			if (txtApellidos.getText().equals("")) {sCamposNulos += "El campo apellidos es obligatorio\n";}
+			if (txtEdad.getText().isEmpty()) {sCamposNulos += "El campo edad es obligatorio";}
+			return sCamposNulos;
 		}
 }
