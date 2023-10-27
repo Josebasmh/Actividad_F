@@ -43,6 +43,9 @@ public class Persona {
 	public void setEdad(int nEdad) {
 		this.edad = nEdad;
 	}
+	public String toCSV() {
+		return this.nombre + "," + this.apellidos + "," + this.edad;
+	}
 
 
 	/*
