@@ -21,7 +21,7 @@
                   <TextField fx:id="txtFiltrar" onKeyTyped="#filtrarTabla" />
                   <HBox alignment="CENTER" prefWidth="400.0" spacing="30.0">
                      <children>
-                        <Button fx:id="btnImportar" mnemonicParsing="false" text="Importar" />
+                        <Button fx:id="btnImportar" mnemonicParsing="false" onAction="#importarDatos" text="Importar" />
                         <Button fx:id="btnExportar" mnemonicParsing="false" onAction="#exportarDatos" text="Exportar" />
                      </children>
                   </HBox>

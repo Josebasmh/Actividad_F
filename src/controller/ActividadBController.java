@@ -1,14 +1,9 @@
 package controller;
 
-
-
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.ResourceBundle;
 
@@ -29,7 +24,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.FlowPane;
-import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Persona;
@@ -174,7 +168,14 @@ public class ActividadBController implements Initializable{
 		} catch (NullPointerException e) {
 			ventanaAlerta("E", "No se pueden exportar datos sin ningún registro");
 		}
-    	/*try {
+    }
+    
+    /*
+     * Método para importar datos
+     */
+    @FXML
+    void importarDatos(ActionEvent event) {
+    	try {
     		JFileChooser fichCSV = new JFileChooser();
         	fichCSV.showOpenDialog(null);
         	File fRutaFichero = fichCSV.getSelectedFile();
@@ -188,7 +189,7 @@ public class ActividadBController implements Initializable{
         	
     	}catch (NullPointerException e) {
     		
-    	}*/
+    	}
     }
 		
 	/*
