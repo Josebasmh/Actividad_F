@@ -2,7 +2,9 @@ package controller;
 
 
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -149,17 +151,44 @@ public class ActividadBController implements Initializable{
     @FXML
     void exportarDatos(ActionEvent event) {
 
+    	
+    	File f = new File("./Persona.csv");
     	try {
+			FileWriter fw = new FileWriter(f);
+			Iterator<Persona> it = listaFiltrada.iterator();
+			
+			fw.write("Nombre,Apellidos,Edad\n");
+			// Si no se muestran datos en la tabla, no se podrá exportar
+			if (!it.hasNext()) {
+				fw.close();
+				throw new NullPointerException();
+			}
+			while(it.hasNext()) {
+				Persona p = it.next();
+				fw.write(p.toCSV()+"\n");
+			}
+			fw.close();
+			ventanaAlerta("I", "CSV creado correctamente");
+		} catch (IOException e) {
+			ventanaAlerta("E", "No se pudo crear el archivo csv");
+		} catch (NullPointerException e) {
+			ventanaAlerta("E", "No se pueden exportar datos sin ningún registro");
+		}
+    	/*try {
     		JFileChooser fichCSV = new JFileChooser();
         	fichCSV.showOpenDialog(null);
         	File fRutaFichero = fichCSV.getSelectedFile();
         	String extension = fRutaFichero.toString().substring(((int)fRutaFichero.toString().length())-3, (int)fRutaFichero.toString().length());
         	if (extension!="csv") {
         		ventanaAlerta("E", "Seleccione un archivo con extensión .csv");
+        	}else {
+        		
         	}
+    		
+        	
     	}catch (NullPointerException e) {
     		
-    	}
+    	}*/
     }
 		
 	/*
