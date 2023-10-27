@@ -1,11 +1,13 @@
 package controller;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 
 import javax.swing.JFileChooser;
 
@@ -93,6 +95,7 @@ public class ActividadBController implements Initializable{
 	
 	/*
 	 * Método para eliminar registros de la tabla.
+	 * 
 	 * Si no hay ninguno seleccionado, se captura la 'NullPointerException' y muestra una ventana de error. 
 	 */
 	@FXML
@@ -109,6 +112,11 @@ public class ActividadBController implements Initializable{
 		}		
     }
 
+	/*
+	 * Método para modificar registro de la tabla.
+	 * 
+	 * Si no hay ninguno seleccionado, se captura la 'NullPointerException' y muestra una ventana de error. 
+	 */
     @FXML
     void modificarPersona(ActionEvent event) {
     	
@@ -123,6 +131,11 @@ public class ActividadBController implements Initializable{
     	
     }
     
+    /*
+     * Método para filtrar por nombre la tabla.
+     * 
+     * Cada vez que se inserte/elimine un caracter de txtFiltrar se actualiza.
+     */
     @FXML
     void filtrarTabla(KeyEvent event) {
     	
@@ -139,13 +152,13 @@ public class ActividadBController implements Initializable{
     		}
     	}
     }
+    
     /*
      * Método para exportar los datos de la tabla a un csv 
      */
     @FXML
     void exportarDatos(ActionEvent event) {
 
-    	
     	File f = new File("./Persona.csv");
     	try {
 			FileWriter fw = new FileWriter(f);
@@ -176,20 +189,42 @@ public class ActividadBController implements Initializable{
     @FXML
     void importarDatos(ActionEvent event) {
     	try {
+    		
     		JFileChooser fichCSV = new JFileChooser();
         	fichCSV.showOpenDialog(null);
         	File fRutaFichero = fichCSV.getSelectedFile();
         	String extension = fRutaFichero.toString().substring(((int)fRutaFichero.toString().length())-3, (int)fRutaFichero.toString().length());
-        	if (extension!="csv") {
+        	if (!extension.equals("csv")) {
         		ventanaAlerta("E", "Seleccione un archivo con extensión .csv");
         	}else {
-        		
+        		Scanner sc = new Scanner(fRutaFichero);
+        		String[] arrLinea = new String[3];
+        		// Leer la primera línea para quitar el encabezado
+        		sc.next();
+        		while (sc.hasNext()) {
+        			String sLinea=sc.next();
+        			arrLinea = sLinea.split(",");
+        			Persona p = new Persona(arrLinea[0],arrLinea[1],Integer.parseInt(arrLinea[2]));
+        			if (!comprobarPersona(p)){
+        				throw new IOException();
+        			}
+        			if (!listaPersonas.contains(p)) {
+        				listaPersonas.add(p);
+            			listaFiltrada.add(p);
+        			}
+        		}
+        		sc.close();
+        		ventanaAlerta("I", "CSV importado correctamente");
         	}
     		
-        	
+        // Omite NullPointerException para que al pulsar cancelar no de error.	
     	}catch (NullPointerException e) {
     		
-    	}
+    	} catch (FileNotFoundException e) {
+    		ventanaAlerta("E", "No se encontró el archivo seleccionado");
+		}catch (Exception e) {
+			ventanaAlerta("E", "El archivo no tiene el formato de datos correcto: nombre,apellidos,edad");
+		}
     }
 		
 	/*
@@ -227,5 +262,16 @@ public class ActividadBController implements Initializable{
 			System.out.println("La ventana no se abrió correctamente.");
 			e.printStackTrace();
 		}
+	}
+	
+	// para comprobar las personas de la importación
+	boolean comprobarPersona(Persona p) {
+		boolean correcto = true;
+		
+		if (p.getNombre()=="")correcto=false;
+		if (p.getApellidos()=="")correcto=false;
+		if (p.getEdad()==0)correcto=false;
+		
+		return correcto;
 	}
 }
