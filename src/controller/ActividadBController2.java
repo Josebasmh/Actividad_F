@@ -36,7 +36,7 @@ public class ActividadBController2 implements Initializable{
 	    //variables de clase
 	    String camposNulos;
 	    
-	    /*
+	    /**
 	     * Método de inicialización.
 	     */
 	    @Override
@@ -48,8 +48,9 @@ public class ActividadBController2 implements Initializable{
 				}
 		}
 
-	    /*
-	     * Metodo para cerrar la ventana auxiliar
+	    /**
+	     * Metodo para cerrar la ventana auxiliar.
+	     * @param event
 	     */
 	    @FXML
 	    void cancelarVentana(ActionEvent event) {
@@ -58,10 +59,11 @@ public class ActividadBController2 implements Initializable{
 	    	stage.close();
 	    }
 
-	    /*
-		 * Método para agregar personas a la tabla.
-		 * Se controla que los campos no pueden ser nulos y que el campo edad sea un número mayor que 1. 
-		 */
+	    /**
+	     * Método para agregar personas a la tabla.
+		 * Se controla que los campos no pueden ser nulos y que el campo edad sea un número mayor que 1.
+	     * @param event
+	     */
 		@FXML
 	    void guardarPersona(ActionEvent event) {
 			if (ActividadBController.p.getNombre().equals("")) {
@@ -72,10 +74,11 @@ public class ActividadBController2 implements Initializable{
 			cancelarVentana(event);
 	    }
 		
-		/*
-		 * Métodos auxiliares
+		/**
+		 * Método auxiliar para añadir la persona en las listas.
+		 * Mostrará una ventana de si la operacion se ejecutó correctamente
+		 * o no.
 		 */
-
 		private void aniadir() {
 			String camposNulos = "";
 			try {
@@ -105,6 +108,11 @@ public class ActividadBController2 implements Initializable{
 			}
 		}
 		
+		/**
+		 * Método auxiliar para modificar una persona de la tabla. 
+		 * Modifica la persona, la elimina de las listas y la vuelve a añadir
+		 * con los datos nuevos. Captura 'NullPointerException'.
+		 */
 		private void modificar() {
 			camposNulos="";
 	    	try {
@@ -134,15 +142,20 @@ public class ActividadBController2 implements Initializable{
 	    		ActividadBController.ventanaAlerta("E", camposNulos);
 	    	}
 		}
-		// Vacia los editText  
+		/**
+		 * Vacia los editText  
+		 */
 		private void eliminarValores() {
 			txtNombre.clear();
 			txtApellidos.clear();
 			txtEdad.clear();
 		}
-		
+		/**
+		 * Comprueba que los datos se insertan correctamente.
+		 * Si no es así, saltará NullPointerExceptión.
+		 * @return
+		 */
 		private String comprobarCampos() {
-			// Controlar que los parametros se insertan correctamente
 			String sCamposNulos="";
 			if (txtNombre.getText().equals("")) {sCamposNulos = "El campo nombre es obligatorio\n";}
 			if (txtApellidos.getText().equals("")) {sCamposNulos += "El campo apellidos es obligatorio\n";}

@@ -67,8 +67,10 @@ public class ActividadBController implements Initializable{
 	static ObservableList<Persona> listaFiltrada;
 	static Persona p=new Persona("", "", 0);
 	
-	/*
-	 * Método de inicialización
+	/**
+	 * Método de inicialización donde se cargan la lista de todas las
+	 * personas y la lista que se utiliza para refrescar la tabla a la 
+	 * hora de filtrar columnas
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -82,8 +84,9 @@ public class ActividadBController implements Initializable{
 		tblTabla.setItems(listaFiltrada);		
 	}
 		
-	/*
-	 * Método para abrir la ventana 'VentanaNuePer'
+	/**
+	 * Método para abrir la ventana 'NuevaPersona'
+	 * @param event
 	 */
 	@FXML
     void agregarPersona(ActionEvent event) {
@@ -93,10 +96,10 @@ public class ActividadBController implements Initializable{
 		crearVentanaAux();
     }
 	
-	/*
+	/**
 	 * Método para eliminar registros de la tabla.
-	 * 
 	 * Si no hay ninguno seleccionado, se captura la 'NullPointerException' y muestra una ventana de error. 
+	 * @param event
 	 */
 	@FXML
 	void eliminarPersona(ActionEvent event) {
@@ -112,10 +115,10 @@ public class ActividadBController implements Initializable{
 		}		
     }
 
-	/*
+	/**
 	 * Método para modificar registro de la tabla.
-	 * 
-	 * Si no hay ninguno seleccionado, se captura la 'NullPointerException' y muestra una ventana de error. 
+	 * Si no hay ninguno seleccionado, se captura la 'NullPointerException' y muestra una ventana de error.
+	 * @param event
 	 */
     @FXML
     void modificarPersona(ActionEvent event) {
@@ -131,10 +134,10 @@ public class ActividadBController implements Initializable{
     	
     }
     
-    /*
+    /**
      * Método para filtrar por nombre la tabla.
-     * 
      * Cada vez que se inserte/elimine un caracter de txtFiltrar se actualiza.
+     * @param event
      */
     @FXML
     void filtrarTabla(KeyEvent event) {
@@ -153,8 +156,9 @@ public class ActividadBController implements Initializable{
     	}
     }
     
-    /*
-     * Método para exportar los datos de la tabla a un csv 
+    /**
+     * Método para exportar los datos de la tabla a un csv
+     * @param event
      */
     @FXML
     void exportarDatos(ActionEvent event) {
@@ -183,8 +187,9 @@ public class ActividadBController implements Initializable{
 		}
     }
     
-    /*
-     * Método para importar datos
+    /**
+     * Método para importar datos.
+     * @param event
      */
     @FXML
     void importarDatos(ActionEvent event) {
@@ -227,11 +232,11 @@ public class ActividadBController implements Initializable{
 		}
     }
 		
-	/*
-	 * Metodos auxiliares 
+	/**
+	 * Método auxiliar para mostrar alertas de tipo error o confirmación
+	 * @param tipoAlerta
+	 * @param mensaje
 	 */
-    
-    // para mostrar alertas de tipo error o confirmación
 	static void ventanaAlerta(String tipoAlerta, String mensaje) {
 		Alert alert = null;
 		switch (tipoAlerta) {
@@ -245,7 +250,9 @@ public class ActividadBController implements Initializable{
         alert.showAndWait();
 	}
 	
-	// para crear la ventana auxiliar
+	/**
+	 * Método auxiliar para crear la ventana auxiliar
+	 */
 	void crearVentanaAux() {
 		Stage arg0 = new Stage();
 		arg0.setTitle("NUEVA PERSONA"); 
@@ -264,7 +271,11 @@ public class ActividadBController implements Initializable{
 		}
 	}
 	
-	// para comprobar las personas de la importación
+	/**
+	 * Método auxiliar para comprobar las personas de la importación
+	 * @param p
+	 * @return
+	 */
 	boolean comprobarPersona(Persona p) {
 		boolean correcto = true;
 		
